@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="flex flex-col items-center bg-indigo-300 h-screen flex-wrap">
+    <div class="container flex items-center justify-center bg-slate-700 mx-14 rounded-md mt-10">
+        <div class="flex flex-col justify-center items-center">
+            <h1 class="text-white font-sans font-bold">Selamat datang</h1>
+            <p class="text-white font-sans mt-2">disini saya ingin anda untuk mengisi form di <span class="font-bold">bawah ini </span>😊</p>
+        </div>
+    </div>
+    <div class="bg-slate-600 p-8 flex flex-col justify-center items-center mt-2 w-6/12 rounded-md shadow-lg shadow-indigo-500/50 flex-wrap">
+        <div class="text flex justify-center"><h1 class="text-white font-bold">form</h1></div>
+        <form action="3" class="text-white " id="myForm" method="post">
+            <div class="flex">
+                <div class="flex flex-col m-2">
+                    <label for="name" class="mt-2">Name:</label>
+                    <label for="nim" class="mt-2">Nim:</label>
+                    <label for="kelas" class="mt-2">kelas:</label>
+                </div>
+                <div class="flex flex-col mt-2" >
+                    <input type="text" class="ml-7 rounded-md mt-2 text-black" id="name">
+                     <input type="text" class="ml-7 rounded-md mt-2 text-black" id="nim">
+                     <input type="text" class="ml-7 rounded-md mt-2 text-black" id="kelas">
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <input type="submit" value="Submit" class="bg-indigo-400 rounded-md p-2 mt-2 shadow-lg">
+            </div>
+        </form>
+
+
+        <div class="container bg-gray-500 text-white font-bold flex flex-col justify-center items-center mt-8 rounded-xl p-8">
+            <div class="flex flex-col justify-center items-center">
+                <h1>Terima kasih telah mengisi form nya :)</h1>
+                 <h1>Apakah ini yang kamu masukkan?</h1>
+            </div>
+            <div>
+                <h1 class="font-bold text-black mt-8">Hasil</h1>
+
+            </div>
+            <div class="result" id="result"></div>
+        </div>
+
+        <script>
+            document.getElementById('myForm').addEventListener('submit', function(e){
+                e.preventDefault();
+                const name= document.getElementById('name').value;
+                const nim = document.getElementById('nim').value;
+                const kelas = document.getElementById('kelas').value;
+
+                fetch('http://localhost:9000/books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, nim, kelas }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = `
+                        <p>Nama: ${data.name}</p>
+                        <p>Nim: ${data.nim}</p>
+                        <p>Kelas: ${data.kelas}</p>
+                    `;
+                });
+            })
+
+
+
+    // document.getElementById('myForm').addEventListener('submit', function(e){
+    //     e.preventDefault();
+    //     const name = document.getElementById('name').value;
+    //     const nim = document.getElementById('nim').value;
+    //     const kelas = document.getElementById('kelas').value;
+
+    //     fetch('http://localhost:9000/books', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ name, nim, kelas }),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // Simpan data di sessionStorage atau cookie jika diperlukan
+    //         sessionStorage.setItem('hasilData', JSON.stringify(data));
+
+    //         // Alihkan pengguna ke halaman hasil.html
+    //         window.location.href = 'hasil.html';
+    //     });
+    // });
+
+
+        </script>
+    </div>
+</body>
+</html>
